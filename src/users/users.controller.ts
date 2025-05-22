@@ -1,18 +1,22 @@
-import {  Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Patch, Post, Query } from "@nestjs/common";
+import {  Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import { UserService } from "./users.service";
 import { CreateUserDTO } from "./dtos/create-user.dto";
 import { GetUsersDto } from "./dtos/get-users.dto";
 import { UpdateUserDto } from "./dtos/update-user.dto";
+import { AuthorizeGuard } from "src/auth/gurds/authorize.gurd";
 
 
 
 
 
 @Controller('users')
+//  @UseGuards(AuthorizeGuard) //it will apply for all of the route
 export class UserController{
     constructor(private  userService: UserService){}
 
+
     @Get()
+    // @UseGuards(AuthorizeGuard)
     getUsers(
         @Query("limit", new DefaultValuePipe(10), ParseIntPipe) limit: number, 
         @Query("page", new DefaultValuePipe(10), ParseIntPipe)  page: number,
