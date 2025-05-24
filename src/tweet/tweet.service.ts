@@ -11,6 +11,7 @@ import { UpdateTweetDTO } from './dto/update-tweet.dto';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
 import { PaginationProvider } from 'src/common/pagination/pagination.provider';
 import { Paginated } from 'src/common/pagination/paginated.interface';
+import { ActiveUserType } from 'src/interfaces/active-user-type.interface';
 
 @Injectable()
 export class TweetService {
@@ -57,9 +58,9 @@ export class TweetService {
         })
     }
 
-    public async createTweet(creatTweetdto: CreateTweetDto){
+    public async createTweet(creatTweetdto: CreateTweetDto, activeUser:ActiveUserType){
         //find the user with userId from the params
-        let user = await this.userService.findUserById(creatTweetdto.userId)
+        let user = await this.userService.findUserById(activeUser.sub)
 
         if(!user){
             throw new Error("user is not found")

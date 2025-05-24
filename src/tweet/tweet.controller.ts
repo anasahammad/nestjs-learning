@@ -3,6 +3,7 @@ import { TweetService } from './tweet.service';
 import { CreateTweetDto } from './dto/create-tweet.dto';
 import { UpdateTweetDTO } from './dto/update-tweet.dto';
 import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
+import { ActiveUser } from 'src/auth/decorators/active-user.decorator';
 
 @Controller('tweet')
 export class TweetController {
@@ -25,8 +26,10 @@ export class TweetController {
     }
 
     @Post()
-    public createTweet(@Body() tweet: CreateTweetDto){
-       return this.tweetService.createTweet(tweet)
+    public createTweet(@Body() tweet: CreateTweetDto, @ActiveUser() user){
+
+        // console.log(user)
+       return this.tweetService.createTweet(tweet, user)
     }
 
     @Patch()
